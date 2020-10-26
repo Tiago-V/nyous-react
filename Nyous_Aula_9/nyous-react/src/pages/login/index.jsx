@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import logo from '../../assets/img/logo.svg'
 import { Form, Button, Container } from 'react-bootstrap'
 import Menu from '../../components/menu'
@@ -6,6 +7,7 @@ import Rodape from '../../components/rodape'
 import './index.css'
 
 const Login = () => {
+    let history = useHistory();
 
     //string email {get; set;}
     //valor = email - pegar valor
@@ -21,7 +23,7 @@ const Login = () => {
         const login = {
             email : email,
             senha : senha
-        };
+        }
 
         fetch('http://localhost:62602/api/Account/login', {
             method : 'POST',
@@ -31,7 +33,23 @@ const Login = () => {
                 'content-type' : 'application/json'
             }
         })
-        .then(response => console.log(response.json()));
+
+        .then(response => {
+            //verifica api
+            if(response.ok === true){
+                return response.json();
+            }
+            //caso não seja ok
+            alert('Dados Inválidos')
+        })  
+        .then(data => {
+            console.log(data)
+
+            localStorage.setItem('token-nyous', data.token)
+
+            history.push("/eventos");
+        })
+        .catch(err => console.log(err))
     }
 
     return (
