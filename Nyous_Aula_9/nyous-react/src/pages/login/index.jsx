@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../../assets/img/logo.svg'
 import { Form, Button, Container } from 'react-bootstrap'
 import Menu from '../../components/menu'
@@ -7,11 +7,38 @@ import './index.css'
 
 const Login = () => {
 
+    //string email {get; set;}
+    //valor = email - pegar valor
+    //setEmail - atribuir valor
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+
+    const logar = (event) => {
+        event.preventDefault();
+
+        console.log(`${email} - ${senha}`);
+
+        const login = {
+            email : email,
+            senha : senha
+        };
+
+        fetch('http://localhost:62602/api/Account/login', {
+            method : 'POST',
+            body : JSON.stringify(login),
+
+            headers : {
+                'content-type' : 'application/json'
+            }
+        })
+        .then(response => console.log(response.json()));
+    }
+
     return (
         <div>
             <Menu />
             <Container className='form-height'>
-                <Form className='form-signin'>
+                <Form className='form-signin' onSubmit={event => logar(event)}>
                     <div className='text-center'>
                      <img src={logo} alt='NYOUS' style={{ width : '64px'}} />
                     </div>
@@ -20,12 +47,12 @@ const Login = () => {
                     <hr/>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email </Form.Label>
-                        <Form.Control type="email" placeholder="Informe o email" required />
+                        <Form.Control type="email" placeholder="Informe o email" value={email} onChange={event => setEmail(event.target.value)} required />
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Senha</Form.Label>
-                        <Form.Control type="password" placeholder="Senha" required/>
+                        <Form.Control type="password" placeholder="Senha" value={senha} onChange={event => setSenha(event.target.value)} required/>
                     </Form.Group>
                     <Button variant="primary" type="submit" >
                         Enviar
