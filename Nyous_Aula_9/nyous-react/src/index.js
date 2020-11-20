@@ -47,10 +47,10 @@ const routing = (
           <Route exact path='/' component={Home}  />
           <Route path='/login' component={Login} />
           <Route path='/cadastrar' component={Cadastrar} />
-          <RotaPrivada path='/eventos' component={Eventos} />
+          <Route path='/eventos' component={Eventos} />
           <RotaPrivadaAdmin path='/admin/dashboard' component={Dashboard} />
-          <RotaPrivadaAdmin path='/admin/crudeventos' component={CrudEventos} />
-          <RotaPrivadaAdmin path='/admin/crudcategorias' component={CrudCategorias} />
+          <Route path='/admin/crudeventos' component={CrudEventos} />
+          <Route path='/admin/crudcategorias' component={CrudCategorias} />
           <Route path='/sempermissao' component={SemPermissao} />
           <Route component={NaoEncontrada} />
         </Switch>
